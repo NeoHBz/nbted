@@ -1,0 +1,41 @@
+name: Build for Ubuntu 20.04.6 LTS (aarch64)
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+        target: aarch64-unknown-linux-gnu
+
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu
+
+    - name: Build project
+      run: |
+        cargo build --release --target aarch64-unknown-linux-gnu
+
+    - name: Verify build
+      run: |
+        file target/aarch64-unknown-linux-gnu/release/nbted
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: nbted-aarch64
+        path: target/aarch64-unknown-linux-gnu/release/nbted
