@@ -14,7 +14,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Rust
       uses: actions-rs/toolchain@v1
@@ -35,7 +35,7 @@ jobs:
         file target/aarch64-unknown-linux-gnu/release/nbted
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: nbted-aarch64
         path: target/aarch64-unknown-linux-gnu/release/nbted
