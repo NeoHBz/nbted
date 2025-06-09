@@ -21,12 +21,16 @@ jobs:
       with:
         profile: minimal
         toolchain: stable
-        target: aarch64-unknown-linux-gnu
+        targets: |
+          aarch64-unknown-linux-gnu
+          aarch64-unknown-linux-musl
 
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y gcc-aarch64-linux-gnu libc6-dev-arm64-cross
+        sudo apt-get install -y \
+          gcc-aarch64-linux-gnu libc6-dev-arm64-cross \
+          musl-tools
 
     - name: Configure Cargo for cross-compilation
       run: |
@@ -54,3 +58,14 @@ jobs:
       with:
         name: nbted-aarch64
         path: target/aarch64-unknown-linux-gnu/release/nbted
+
+    - name: Build static MUSL binary
+      run: |
+        rustup target add aarch64-unknown-linux-musl
+        cargo build --release --target aarch64-unknown-linux-musl
+
+    - name: Upload MUSL artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: nbted-aarch64-musl
+        path: target/aarch64-unknown-linux-musl/release/nbted
