@@ -1,4 +1,4 @@
-name: Build for Ubuntu 20.04.6 LTS (aarch64)
+name: Build for Ubuntu latest aarch64
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
